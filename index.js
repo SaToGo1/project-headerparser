@@ -25,12 +25,8 @@ app.get('/api/hello', function(req, res) {
 });
 
 app.get('/api/whoami', (req, res) => {
-  let ip = req.ip;
-  if (ip.slice(0, 7) == "::ffff:") {
-    ip = ip.slice(7);
-  }
-  
-  let lang = req.acceptsLanguages();
+  let ip = req.header('x-forwarded-for');
+  let lang = req.header('accept-Language');
   let soft = req.header('user-agent');
   
   res.json({ ipaddress: ip, language: lang, software: soft });
